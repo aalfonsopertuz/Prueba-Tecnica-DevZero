@@ -1,0 +1,200 @@
+<div class="container bg-light text-dark" style="padding: 1em; padding-left: 2em; padding-right: 2em;">
+  <div class="row bg-info" style="height: 4em;">
+    <div class="col-4" style="padding-top: 0.8em;">
+      <h2 class="fw-normal text-light">Book <span class="fw-bold text-light">Store</span></h2>
+    </div>
+    <div class="col-md-4 offset-md-4" style="padding-top: 0.8em;">
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal"><svg
+          xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle"
+          viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+          <path
+            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+        </svg> Add New Book</button>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md">
+      <div class="column">
+        <div class="table-container">
+          <table class="table table-light table-hover" *ngIf='books && books.length'>
+            <thead class="text-info">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Price</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let b of books; index as i ">
+                <th scope="row" class="text-info">{{i + 1}}</th>
+                <td>{{b.title}}</td>
+                <td>{{b.author.name}}</td>
+                <td>{{b.publisher.name}}</td>
+                <td>{{b.genre}}</td>
+                <td>{{b.price}}</td>
+                <td>
+                  <a class="link-warning-" href="" (click)="getReference(b.reference)" data-bs-toggle="modal"
+                    data-bs-target="#updateModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-pencil" viewBox="0 0 16 16">
+                      <path
+                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                    </svg>
+                  </a>
+                  ㅤ
+                  <a class="link-danger" href="" (click)="remove(b.reference)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-trash" viewBox="0 0 16 16">
+                      <path
+                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                      <path fill-rule="evenodd"
+                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                    </svg>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="fs-4" id="staticBackdropLabel">New Book</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" [(ngModel)]="newBook.reference" name="reference">
+                <label for="floatingInputGrid">Reference</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" [(ngModel)]="newBook.title" name="title">
+                <label for="floatingInputGrid">Title</label>
+              </div>
+            </div>
+
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" [(ngModel)]="newBook.codeAuthor" name="author">
+                <label for="floatingInputGrid">Author</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" [(ngModel)]="newBook.codePublisher" name="publisher">
+                <label for="floatingInputGrid">Publisher</label>
+              </div>
+            </div>
+
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="number" class="form-control" [(ngModel)]="newBook.price" name="price">
+                <label for="floatingInputGrid">Price</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" [(ngModel)]="newBook.genre" name="genre">
+                <label for="floatingInputGrid">Genre</label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-4">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+          ㅤ
+          <button type="button" class="btn btn-outline-success" (click)="add()" data-bs-dismiss="modal">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title text-center" id="staticBackdropLabel">Update Book</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" [(ngModel)]="newBookEdit.title" name="title">
+                <label for="floatingInputGrid">Title</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" [(ngModel)]="newBookEdit.codeAuthor" name="author">
+                <label for="floatingInputGrid">Author</label>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" [(ngModel)]="newBookEdit.codePublisher" name="publisher">
+                <label for="floatingInputGrid">Publisher</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="text" class="form-control" [(ngModel)]="newBookEdit.genre" name="genere">
+                <label for="floatingInputGrid">Genre</label>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="number" class="form-control" [(ngModel)]="newBookEdit.price" name="price">
+                <label for="floatingInputGrid">Price</label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-4">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+          ㅤ
+          <button type="button" class="btn btn-outline-primary" (click)="update()" data-bs-dismiss="modal">Edit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
